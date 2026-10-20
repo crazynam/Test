@@ -12,8 +12,10 @@ const answerCard = document.querySelector("#answerCard");
 const promiseCard = document.querySelector("#promiseCard");
 const yesButton = document.querySelector("#yesButton");
 const noButton = document.querySelector("#noButton");
+const buttonZone = document.querySelector("#buttonZone");
 const forgiveButton = document.querySelector("#forgiveButton");
 const thinkButton = document.querySelector("#thinkButton");
+const forgiveZone = document.querySelector(".forgive-zone");
 const againButton = document.querySelector("#againButton");
 const shareButton = document.querySelector("#shareButton");
 const shareStatus = document.querySelector("#shareStatus");
@@ -40,11 +42,6 @@ const thinkMessages = [
 
 let escapeCount = 0;
 let thinkCount = 0;
-let canRun = false;
-
-window.setTimeout(() => {
-  canRun = true;
-}, 700);
 
 if (recipient) {
   document.querySelector("#recipient").textContent = `TO. ${recipient}`;
@@ -77,7 +74,6 @@ function showCard(card) {
 }
 
 function moveNoButton() {
-  if (!canRun) return;
   const padding = 18;
   const rect = noButton.getBoundingClientRect();
   const maxX = Math.max(padding, window.innerWidth - rect.width - padding);
@@ -90,6 +86,7 @@ function moveNoButton() {
     nextY = padding + Math.random() * (maxY - padding);
   } while (Math.abs(nextX - rect.left) < 120 && Math.abs(nextY - rect.top) < 100);
 
+  if (noButton.parentElement !== document.body) document.body.append(noButton);
   noButton.classList.add("is-running");
   noButton.style.left = `${nextX}px`;
   noButton.style.top = `${nextY}px`;
@@ -123,6 +120,7 @@ function finishPlanning() {
 }
 
 function resetThinkButton() {
+  forgiveZone.append(thinkButton);
   thinkButton.classList.remove("is-running");
   thinkButton.removeAttribute("style");
   thinkButton.textContent = "계속 생각한다";
@@ -144,6 +142,7 @@ function moveThinkButton() {
     nextY = padding + Math.random() * (maxY - padding);
   } while (Math.abs(nextX - rect.left) < 120 && Math.abs(nextY - rect.top) < 100);
 
+  if (thinkButton.parentElement !== document.body) document.body.append(thinkButton);
   thinkButton.classList.add("is-running");
   thinkButton.style.left = `${nextX}px`;
   thinkButton.style.top = `${nextY}px`;
@@ -183,7 +182,8 @@ function resetChoices() {
   choices.after = "";
   confetti.replaceChildren();
   shareStatus.textContent = "";
-  thinkButton.style.display = "";
+  forgiveZone.append(thinkButton);
+  thinkButton.style.display = "none";
   showCard(dateCard);
 }
 
@@ -207,13 +207,11 @@ function launchConfetti() {
 noButton.addEventListener("pointerenter", moveNoButton);
 noButton.addEventListener("pointerdown", (event) => {
   event.preventDefault();
-  canRun = true;
   moveNoButton();
 });
 noButton.addEventListener("keydown", (event) => {
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
-    canRun = true;
     moveNoButton();
   }
 });
@@ -243,6 +241,7 @@ document.querySelectorAll("[data-back]").forEach((button) => {
   button.addEventListener("click", () => {
     const target = document.querySelector(`#${button.dataset.back}`);
     if (target === questionCard) {
+      buttonZone.append(noButton);
       noButton.style.display = "";
       noButton.classList.remove("is-running");
       noButton.removeAttribute("style");
@@ -250,6 +249,7 @@ document.querySelectorAll("[data-back]").forEach((button) => {
       hint.textContent = "마음 가는 쪽을 눌러줘";
       escapeCount = 0;
     }
+    if (target === afterCard) thinkButton.style.display = "none";
     showCard(target);
   });
 });
