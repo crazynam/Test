@@ -32,14 +32,6 @@ const noMessages = [
   "정답 버튼은 저쪽이야 ♥",
   "아직도 포기 안 했네 ㅋㅋ",
 ];
-const thinkMessages = [
-  "어? 생각은 충분히 한 것 같은데?",
-  "그 버튼도 조금 더 생각해본대!",
-  "용서 버튼은 얌전히 기다리는 중 👀",
-  "여기까지 따라왔네 ㅋㅋ",
-  "한 번만 봐주라 ♥",
-];
-
 let escapeCount = 0;
 let thinkCount = 0;
 
@@ -126,6 +118,7 @@ function resetThinkButton() {
   thinkButton.textContent = "계속 생각한다";
   forgiveButton.removeAttribute("style");
   forgivenessHint.textContent = "이번에도 정답은 하나일지도…";
+  forgivenessHint.classList.remove("is-warning");
   thinkCount = 0;
 }
 
@@ -147,7 +140,9 @@ function moveThinkButton() {
   thinkButton.style.left = `${nextX}px`;
   thinkButton.style.top = `${nextY}px`;
   thinkCount += 1;
-  forgivenessHint.textContent = thinkMessages[Math.min(thinkCount - 1, thinkMessages.length - 1)];
+  forgivenessHint.textContent = "⚠️ 경고! 떵강아지한테 꼬순내가 더 많이 날 수 있습니다!";
+  forgivenessHint.classList.remove("is-warning");
+  window.requestAnimationFrame(() => forgivenessHint.classList.add("is-warning"));
   forgiveButton.style.transform = `scale(${Math.min(1 + thinkCount * 0.07, 1.35)})`;
 }
 
