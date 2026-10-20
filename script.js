@@ -9,12 +9,16 @@ const dateCard = document.querySelector("#dateCard");
 const menuCard = document.querySelector("#menuCard");
 const afterCard = document.querySelector("#afterCard");
 const answerCard = document.querySelector("#answerCard");
+const promiseCard = document.querySelector("#promiseCard");
 const yesButton = document.querySelector("#yesButton");
 const noButton = document.querySelector("#noButton");
+const forgiveButton = document.querySelector("#forgiveButton");
+const thinkButton = document.querySelector("#thinkButton");
 const againButton = document.querySelector("#againButton");
 const shareButton = document.querySelector("#shareButton");
 const shareStatus = document.querySelector("#shareStatus");
 const hint = document.querySelector("#hint");
+const forgivenessHint = document.querySelector("#forgivenessHint");
 const confetti = document.querySelector("#confetti");
 
 const choices = { date: "", menu: "", after: "" };
@@ -26,8 +30,16 @@ const noMessages = [
   "정답 버튼은 저쪽이야 ♥",
   "아직도 포기 안 했네 ㅋㅋ",
 ];
+const thinkMessages = [
+  "어? 생각은 충분히 한 것 같은데?",
+  "그 버튼도 조금 더 생각해본대!",
+  "용서 버튼은 얌전히 기다리는 중 👀",
+  "여기까지 따라왔네 ㅋㅋ",
+  "한 번만 봐주라 ♥",
+];
 
 let escapeCount = 0;
+let thinkCount = 0;
 let canRun = false;
 
 window.setTimeout(() => {
@@ -106,12 +118,48 @@ function finishPlanning() {
   document.querySelector("#summaryMenu").textContent = choices.menu;
   document.querySelector("#summaryAfter").textContent = choices.after;
   shareStatus.textContent = "";
+  resetThinkButton();
   showCard(answerCard);
+}
+
+function resetThinkButton() {
+  thinkButton.classList.remove("is-running");
+  thinkButton.removeAttribute("style");
+  thinkButton.textContent = "계속 생각한다";
+  forgiveButton.removeAttribute("style");
+  forgivenessHint.textContent = "이번에도 정답은 하나일지도…";
+  thinkCount = 0;
+}
+
+function moveThinkButton() {
+  const padding = 18;
+  const rect = thinkButton.getBoundingClientRect();
+  const maxX = Math.max(padding, window.innerWidth - rect.width - padding);
+  const maxY = Math.max(padding, window.innerHeight - rect.height - padding);
+  let nextX;
+  let nextY;
+
+  do {
+    nextX = padding + Math.random() * (maxX - padding);
+    nextY = padding + Math.random() * (maxY - padding);
+  } while (Math.abs(nextX - rect.left) < 120 && Math.abs(nextY - rect.top) < 100);
+
+  thinkButton.classList.add("is-running");
+  thinkButton.style.left = `${nextX}px`;
+  thinkButton.style.top = `${nextY}px`;
+  thinkCount += 1;
+  forgivenessHint.textContent = thinkMessages[Math.min(thinkCount - 1, thinkMessages.length - 1)];
+  forgiveButton.style.transform = `scale(${Math.min(1 + thinkCount * 0.07, 1.35)})`;
+}
+
+function acceptForgiveness() {
+  thinkButton.style.display = "none";
+  showCard(promiseCard);
   launchConfetti();
 }
 
 function resultText() {
-  return `데이트 선택 완료 ♥\n언제: ${choices.date}\n저녁: ${choices.menu}\n그다음: ${choices.after}`;
+  return `이제 용서한다 ♥\n데이트 선택 완료!\n언제: ${choices.date}\n저녁: ${choices.menu}\n그다음: ${choices.after}`;
 }
 
 async function shareResult() {
@@ -135,6 +183,7 @@ function resetChoices() {
   choices.after = "";
   confetti.replaceChildren();
   shareStatus.textContent = "";
+  thinkButton.style.display = "";
   showCard(dateCard);
 }
 
@@ -170,8 +219,21 @@ noButton.addEventListener("keydown", (event) => {
 });
 
 yesButton.addEventListener("click", startPlanning);
+forgiveButton.addEventListener("click", acceptForgiveness);
 againButton.addEventListener("click", resetChoices);
 shareButton.addEventListener("click", shareResult);
+
+thinkButton.addEventListener("pointerenter", moveThinkButton);
+thinkButton.addEventListener("pointerdown", (event) => {
+  event.preventDefault();
+  moveThinkButton();
+});
+thinkButton.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    moveThinkButton();
+  }
+});
 
 document.querySelectorAll("[data-choice]").forEach((button) => {
   button.addEventListener("click", () => selectChoice(button));
@@ -194,4 +256,5 @@ document.querySelectorAll("[data-back]").forEach((button) => {
 
 window.addEventListener("resize", () => {
   if (noButton.classList.contains("is-running") && !questionCard.hidden) moveNoButton();
+  if (thinkButton.classList.contains("is-running") && !answerCard.hidden) moveThinkButton();
 });

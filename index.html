@@ -97,9 +97,26 @@
       <section class="card card--answer" id="answerCard" aria-labelledby="answerTitle" hidden>
         <div class="tape" aria-hidden="true"></div>
         <div class="answer-heart" aria-hidden="true">♥</div>
+        <p class="eyebrow">마지막으로</p>
+        <h2 id="answerTitle">하고 싶은 말이 있어</h2>
+        <div class="letter-note">
+          <p class="answer-copy" id="answerCopy">이번엔 네 마음을 더 잘 듣고,<br />편하게 웃을 수 있게 할게.</p>
+        </div>
+        <p class="step-copy">내 마음을 다 읽었다면 골라줘.</p>
+        <div class="forgive-zone">
+          <button class="button button--forgive" id="forgiveButton" type="button">이제 용서한다 ♥</button>
+          <button class="button button--think" id="thinkButton" type="button">계속 생각한다</button>
+        </div>
+        <p class="hint" id="forgivenessHint" aria-live="polite">이번에도 정답은 하나일지도…</p>
+        <button class="text-button" type="button" data-back="afterCard">← 코스 다시 고르기</button>
+      </section>
+
+      <section class="card card--answer" id="promiseCard" aria-labelledby="promiseTitle" hidden>
+        <div class="tape" aria-hidden="true"></div>
+        <div class="answer-heart" aria-hidden="true">♥</div>
         <p class="eyebrow">우리 약속</p>
-        <h2 id="answerTitle">골라줘서 고마워</h2>
-        <p class="answer-copy" id="answerCopy">이번엔 네 마음을 더 잘 듣고,<br />편하게 웃을 수 있게 할게.</p>
+        <h2 id="promiseTitle">정말 고마워</h2>
+        <p class="answer-copy">말보다 행동으로 더 잘할게.<br />우리 그날 편하게 만나자.</p>
         <div class="ticket ticket--summary" aria-label="선택한 데이트 일정">
           <span>OUR DATE PLAN</span>
           <div><small>언제</small><strong id="summaryDate"></strong></div>
