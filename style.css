@@ -310,12 +310,14 @@ h1 span::after {
 .button--no {
   color: var(--ink);
   background: var(--cream);
+  animation: no-wiggle 1.8s ease-in-out 0.8s infinite;
 }
 
 .button--no.is-running {
   position: fixed;
   z-index: 20;
   margin: 0;
+  animation: none;
   transition: top 0.2s cubic-bezier(0.2, 0.8, 0.3, 1.1), left 0.2s cubic-bezier(0.2, 0.8, 0.3, 1.1);
 }
 
@@ -459,6 +461,13 @@ h2 {
   0%, 100% { transform: scale(1); }
   18% { transform: scale(1.18); }
   35% { transform: scale(1); }
+}
+
+@keyframes no-wiggle {
+  0%, 82%, 100% { transform: rotate(0); }
+  87% { transform: rotate(-3deg); }
+  92% { transform: rotate(3deg); }
+  97% { transform: rotate(-2deg); }
 }
 
 @keyframes answer-pop {

@@ -12,14 +12,20 @@ const hint = document.querySelector("#hint");
 const confetti = document.querySelector("#confetti");
 
 const noMessages = [
-  "어라? 버튼이 낯을 가리네",
-  "잠깐, 다시 생각해봐!",
-  "정말 그쪽 맞아? 👀",
-  "정답 버튼이 더 커졌는데?",
-  "이제 슬슬 인정하자 ♥",
+  "어라? 거긴 못 누르는데?",
+  "아니오는 잠시 외출 중!",
+  "잡을 수 있으면 잡아봐 👀",
+  "계속 따라올 거야?",
+  "정답 버튼은 저쪽이야 ♥",
+  "아직도 포기 안 했네 ㅋㅋ",
 ];
 
 let escapeCount = 0;
+let canRun = false;
+
+window.setTimeout(() => {
+  canRun = true;
+}, 700);
 
 if (recipient) {
   document.querySelector("#recipient").textContent = `TO. ${recipient}`;
@@ -47,6 +53,8 @@ function escapeHtml(value) {
 }
 
 function moveNoButton() {
+  if (!canRun) return;
+
   const padding = 18;
   const rect = noButton.getBoundingClientRect();
   const maxX = Math.max(padding, window.innerWidth - rect.width - padding);
@@ -71,9 +79,7 @@ function moveNoButton() {
   const yesScale = Math.min(1 + escapeCount * 0.09, 1.45);
   yesButton.style.transform = `scale(${yesScale})`;
 
-  if (escapeCount >= 5) {
-    noButton.textContent = "알겠어… 좋아!";
-  }
+  noButton.textContent = escapeCount >= 5 ? "그래도 아니오" : "아니오";
 }
 
 function acceptDate() {
@@ -89,7 +95,7 @@ function resetPage() {
   noButton.style.display = "";
   noButton.classList.remove("is-running");
   noButton.removeAttribute("style");
-  noButton.textContent = "음…";
+  noButton.textContent = "아니오";
   yesButton.removeAttribute("style");
   hint.textContent = "힌트: 마음이 가는 쪽을 눌러봐";
   escapeCount = 0;
@@ -118,10 +124,7 @@ function launchConfetti() {
 noButton.addEventListener("pointerenter", moveNoButton);
 noButton.addEventListener("pointerdown", (event) => {
   event.preventDefault();
-  if (escapeCount >= 5) {
-    acceptDate();
-    return;
-  }
+  canRun = true;
   moveNoButton();
 });
 
@@ -130,7 +133,11 @@ noButton.addEventListener("focus", () => {
 });
 
 noButton.addEventListener("keydown", (event) => {
-  if (event.key === "Enter" || event.key === " ") acceptDate();
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    canRun = true;
+    moveNoButton();
+  }
 });
 
 yesButton.addEventListener("click", acceptDate);
