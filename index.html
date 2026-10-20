@@ -4,18 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#fff7f3" />
-    <meta name="description" content="용기 내서 보내는 귀여운 데이트 신청" />
+    <meta name="description" content="조심스럽게 건네는 저녁 데이트 신청" />
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
     <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet" />
     <meta property="og:title" content="잠깐, 물어볼 게 있어 💌" />
-    <meta property="og:description" content="링크를 열었다면 대답해줘야 해!" />
+    <meta property="og:description" content="퇴근하고 나랑 밥 먹을래?" />
     <title>잠깐, 물어볼 게 있어 💌</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -27,54 +24,94 @@
     <main class="page-shell">
       <section class="card" id="questionCard" aria-labelledby="questionTitle">
         <div class="tape" aria-hidden="true"></div>
-        <p class="eyebrow" id="recipient">TO. 너에게</p>
-
-        <div class="stamp" aria-hidden="true">
-          <span>두근</span>
-          <strong>100%</strong>
-        </div>
+        <p class="eyebrow" id="recipient">TO. 내 소중한 사람에게</p>
+        <div class="stamp" aria-hidden="true"><span>진심</span><strong>100%</strong></div>
 
         <div class="illustration" aria-hidden="true">
-          <div class="envelope">
-            <span class="envelope__heart">♥</span>
-          </div>
+          <div class="envelope"><span class="envelope__heart">♥</span></div>
           <span class="spark spark--one">✦</span>
           <span class="spark spark--two">✦</span>
           <span class="spark spark--three">·</span>
         </div>
 
-        <p class="lead">사실은 말이야…</p>
+        <p class="lead">어제 이야기하고 돌아와서도</p>
         <h1 id="questionTitle">
-          나랑 같이<br />
-          <span id="datePlan">맛있는 거 먹으러 갈래?</span>
+          한 번 더 묻고 싶었어<br />
+          <span id="datePlan">퇴근하고 나랑 밥 먹을래?</span>
         </h1>
-        <p class="subcopy">신중하게 골라도 돼. 정답은 하나지만.</p>
+        <p class="subcopy">천천히 생각해도 괜찮아. 그래도 같이 웃고 싶어서 준비했어.</p>
 
         <div class="button-zone" id="buttonZone">
-          <button class="button button--yes" id="yesButton" type="button">
-            좋아! <span aria-hidden="true">♥</span>
-          </button>
+          <button class="button button--yes" id="yesButton" type="button">좋아 <span aria-hidden="true">♥</span></button>
           <button class="button button--no" id="noButton" type="button">아니오</button>
         </div>
+        <p class="hint" id="hint" aria-live="polite">마음 가는 쪽을 눌러줘</p>
+        <p class="signature" id="signature">FROM. 더 잘하고 싶은 사람</p>
+      </section>
 
-        <p class="hint" id="hint" aria-live="polite">힌트: 마음이 가는 쪽을 눌러봐</p>
-        <p class="signature" id="signature">FROM. 용기 낸 누군가</p>
+      <section class="card card--step" id="dateCard" aria-labelledby="dateTitle" hidden>
+        <div class="tape" aria-hidden="true"></div>
+        <p class="progress-pill">1 / 3</p>
+        <div class="step-icon" aria-hidden="true">📅</div>
+        <p class="eyebrow">첫 번째 선택</p>
+        <h2 id="dateTitle">언제가 제일 편해?</h2>
+        <p class="step-copy">퇴근 후 편한 날을 골라줘.<br />이 버튼들은 안 도망가!</p>
+        <div class="choice-grid choice-grid--dates">
+          <button class="choice" type="button" data-choice="date" data-value="10월 21일 수요일"><small>수요일</small><strong>21</strong><span>10월</span></button>
+          <button class="choice" type="button" data-choice="date" data-value="10월 22일 목요일"><small>목요일</small><strong>22</strong><span>10월</span></button>
+          <button class="choice" type="button" data-choice="date" data-value="10월 23일 금요일"><small>금요일</small><strong>23</strong><span>10월</span></button>
+        </div>
+        <button class="text-button" type="button" data-back="questionCard">← 처음으로</button>
+      </section>
+
+      <section class="card card--step" id="menuCard" aria-labelledby="menuTitle" hidden>
+        <div class="tape" aria-hidden="true"></div>
+        <p class="progress-pill">2 / 3</p>
+        <div class="step-icon" aria-hidden="true">🍽️</div>
+        <p class="eyebrow">저녁 메뉴</p>
+        <h2 id="menuTitle">퇴근하고 뭐 먹을까?</h2>
+        <p class="step-copy">오늘 당기는 걸로 골라줘.<br />맛있게 먹는 게 제일 중요해.</p>
+        <div class="choice-grid choice-grid--list">
+          <button class="choice choice--wide" type="button" data-choice="menu" data-value="버거킹"><span class="choice__emoji" aria-hidden="true">🍔</span><strong>버거킹</strong><small>와퍼로 든든하게</small></button>
+          <button class="choice choice--wide" type="button" data-choice="menu" data-value="뼈해장국"><span class="choice__emoji" aria-hidden="true">🍲</span><strong>뼈해장국</strong><small>뜨끈하게 한 그릇</small></button>
+          <button class="choice choice--wide" type="button" data-choice="menu" data-value="부대찌개"><span class="choice__emoji" aria-hidden="true">🥘</span><strong>부대찌개</strong><small>보글보글 같이 먹기</small></button>
+        </div>
+        <button class="text-button" type="button" data-back="dateCard">← 날짜 다시 고르기</button>
+      </section>
+
+      <section class="card card--step" id="afterCard" aria-labelledby="afterTitle" hidden>
+        <div class="tape" aria-hidden="true"></div>
+        <p class="progress-pill">3 / 3</p>
+        <div class="step-icon" aria-hidden="true">🌙</div>
+        <p class="eyebrow">마지막 선택</p>
+        <h2 id="afterTitle">밥 먹고 뭐 할까?</h2>
+        <p class="step-copy">그날 기분에 어울리는 걸로.<br />네가 편한 코스가 좋아.</p>
+        <div class="choice-grid choice-grid--list">
+          <button class="choice choice--wide" type="button" data-choice="after" data-value="스카 가기"><span class="choice__emoji" aria-hidden="true">📚</span><strong>스카 가기</strong><small>나란히 조용히 집중하기</small></button>
+          <button class="choice choice--wide" type="button" data-choice="after" data-value="카페 가기"><span class="choice__emoji" aria-hidden="true">☕</span><strong>카페 가기</strong><small>따뜻한 거 마시며 얘기하기</small></button>
+          <button class="choice choice--wide" type="button" data-choice="after" data-value="산책하기"><span class="choice__emoji" aria-hidden="true">🌿</span><strong>산책하기</strong><small>천천히 걸으며 바람 쐬기</small></button>
+        </div>
+        <button class="text-button" type="button" data-back="menuCard">← 메뉴 다시 고르기</button>
       </section>
 
       <section class="card card--answer" id="answerCard" aria-labelledby="answerTitle" hidden>
         <div class="tape" aria-hidden="true"></div>
         <div class="answer-heart" aria-hidden="true">♥</div>
-        <p class="eyebrow">약속 완료!</p>
-        <h2 id="answerTitle">진짜지? 취소 없음!</h2>
-        <p class="answer-copy" id="answerCopy">
-          그럼 우리, 설레는 마음만 챙겨서 만나자.<br />나머지는 내가 준비할게 :)
-        </p>
-        <div class="ticket" aria-label="데이트 약속 티켓">
-          <span>DATE TICKET</span>
-          <strong>우리 둘 · 곧 만나요</strong>
-          <small>유효기간: 만나서 웃을 때까지</small>
+        <p class="eyebrow">우리 약속</p>
+        <h2 id="answerTitle">골라줘서 고마워</h2>
+        <p class="answer-copy" id="answerCopy">이번엔 네 마음을 더 잘 듣고,<br />편하게 웃을 수 있게 할게.</p>
+        <div class="ticket ticket--summary" aria-label="선택한 데이트 일정">
+          <span>OUR DATE PLAN</span>
+          <div><small>언제</small><strong id="summaryDate"></strong></div>
+          <div><small>저녁</small><strong id="summaryMenu"></strong></div>
+          <div><small>그다음</small><strong id="summaryAfter"></strong></div>
+          <p>그날 봐. 고마워 ♥</p>
         </div>
-        <button class="button button--again" id="againButton" type="button">한 번 더 보기</button>
+        <div class="final-actions">
+          <button class="button button--share" id="shareButton" type="button">선택 결과 보내기</button>
+          <button class="text-button" id="againButton" type="button">다시 고르기</button>
+        </div>
+        <p class="share-status" id="shareStatus" aria-live="polite"></p>
       </section>
     </main>
 
