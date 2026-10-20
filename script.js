@@ -16,6 +16,7 @@ const buttonZone = document.querySelector("#buttonZone");
 const forgiveButton = document.querySelector("#forgiveButton");
 const thinkButton = document.querySelector("#thinkButton");
 const forgiveZone = document.querySelector(".forgive-zone");
+const forgivenessHintHome = document.querySelector("#forgivenessHintHome");
 const againButton = document.querySelector("#againButton");
 const shareButton = document.querySelector("#shareButton");
 const shareStatus = document.querySelector("#shareStatus");
@@ -113,12 +114,14 @@ function finishPlanning() {
 
 function resetThinkButton() {
   forgiveZone.append(thinkButton);
+  forgivenessHintHome.append(forgivenessHint);
   thinkButton.classList.remove("is-running");
   thinkButton.removeAttribute("style");
   thinkButton.textContent = "계속 생각한다";
   forgiveButton.removeAttribute("style");
   forgivenessHint.textContent = "이번에도 정답은 하나일지도…";
-  forgivenessHint.classList.remove("is-warning");
+  forgivenessHint.classList.remove("is-warning", "is-floating-warning");
+  forgivenessHint.removeAttribute("style");
   thinkCount = 0;
 }
 
@@ -141,12 +144,27 @@ function moveThinkButton() {
   thinkButton.style.top = `${nextY}px`;
   thinkCount += 1;
   forgivenessHint.textContent = "⚠️ 경고! 똥강아지한테 꼬순내가 더 많이 날 수 있습니다!";
+  if (forgivenessHint.parentElement !== document.body) document.body.append(forgivenessHint);
+  positionForgivenessWarning(nextX, nextY, rect.width, rect.height);
   forgivenessHint.classList.remove("is-warning");
-  window.requestAnimationFrame(() => forgivenessHint.classList.add("is-warning"));
+  window.requestAnimationFrame(() => forgivenessHint.classList.add("is-warning", "is-floating-warning"));
   forgiveButton.style.transform = `scale(${Math.min(1 + thinkCount * 0.07, 1.35)})`;
 }
 
+function positionForgivenessWarning(buttonX, buttonY, buttonWidth, buttonHeight) {
+  const edge = 12;
+  const warningWidth = Math.min(330, window.innerWidth - edge * 2);
+  const centeredLeft = buttonX + buttonWidth / 2 - warningWidth / 2;
+  const warningLeft = Math.max(edge, Math.min(centeredLeft, window.innerWidth - warningWidth - edge));
+  const warningTop = buttonY > 90 ? buttonY - 72 : buttonY + buttonHeight + 12;
+
+  forgivenessHint.style.width = `${warningWidth}px`;
+  forgivenessHint.style.left = `${warningLeft}px`;
+  forgivenessHint.style.top = `${warningTop}px`;
+}
+
 function acceptForgiveness() {
+  resetThinkButton();
   thinkButton.style.display = "none";
   showCard(promiseCard);
   launchConfetti();
@@ -244,7 +262,10 @@ document.querySelectorAll("[data-back]").forEach((button) => {
       hint.textContent = "마음 가는 쪽을 눌러줘";
       escapeCount = 0;
     }
-    if (target === afterCard) thinkButton.style.display = "none";
+    if (target === afterCard) {
+      resetThinkButton();
+      thinkButton.style.display = "none";
+    }
     showCard(target);
   });
 });
