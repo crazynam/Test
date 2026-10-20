@@ -34,20 +34,12 @@ if (recipient) {
 
 if (sender) {
   document.querySelector("#signature").textContent = `FROM. ${sender}`;
-  document.querySelector("#answerCopy").innerHTML =
-    `이번엔 네 마음을 더 잘 듣고,<br>${escapeHtml(sender)}가 편하게 웃을 수 있게 할게.`;
 }
 
 if (customPlan) document.querySelector("#datePlan").textContent = customPlan;
 
 function cleanParam(value) {
   return value?.trim().slice(0, 40) || "";
-}
-
-function escapeHtml(value) {
-  const element = document.createElement("span");
-  element.textContent = value;
-  return element.innerHTML;
 }
 
 function showCard(card) {
