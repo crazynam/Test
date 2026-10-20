@@ -20,19 +20,10 @@ const forgivenessHintHome = document.querySelector("#forgivenessHintHome");
 const againButton = document.querySelector("#againButton");
 const shareButton = document.querySelector("#shareButton");
 const shareStatus = document.querySelector("#shareStatus");
-const hint = document.querySelector("#hint");
 const forgivenessHint = document.querySelector("#forgivenessHint");
 const confetti = document.querySelector("#confetti");
 
 const choices = { date: "", menu: "", after: "" };
-const noMessages = [
-  "어라? 거긴 못 누르는데?",
-  "아니오는 잠시 외출 중!",
-  "잡을 수 있으면 잡아봐 👀",
-  "계속 따라올 거야?",
-  "정답 버튼은 저쪽이야 ♥",
-  "아직도 포기 안 했네 ㅋㅋ",
-];
 let escapeCount = 0;
 let thinkCount = 0;
 
@@ -84,7 +75,6 @@ function moveNoButton() {
   noButton.style.left = `${nextX}px`;
   noButton.style.top = `${nextY}px`;
   escapeCount += 1;
-  hint.textContent = noMessages[Math.min(escapeCount - 1, noMessages.length - 1)];
   yesButton.style.transform = `scale(${Math.min(1 + escapeCount * 0.09, 1.45)})`;
   noButton.textContent = escapeCount >= 5 ? "그래도 아니오" : "아니오";
 }
@@ -259,7 +249,6 @@ document.querySelectorAll("[data-back]").forEach((button) => {
       noButton.classList.remove("is-running");
       noButton.removeAttribute("style");
       noButton.textContent = "아니오";
-      hint.textContent = "마음 가는 쪽을 눌러줘";
       escapeCount = 0;
     }
     if (target === afterCard) {
